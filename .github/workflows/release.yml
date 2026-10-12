@@ -1,0 +1,47 @@
+name: Build EvidenceTool.exe
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt pyinstaller
+
+      - name: Build exe
+        run: python -m PyInstaller --noconfirm --onefile --windowed --name EvidenceTool --icon assets/icon.ico --hidden-import pystray._win32 evidence_tool.py
+
+      - name: Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force pkg | Out-Null
+          Copy-Item dist/EvidenceTool.exe pkg/
+          Copy-Item distribution/使い方ガイド.pdf pkg/
+          Copy-Item LICENSE pkg/LICENSE.txt
+          $name = if ("${{ github.ref_type }}" -eq "tag") { "${{ github.ref_name }}" } else { "dev" }
+          Compress-Archive -Path pkg/* -DestinationPath "EvidenceTool-$name.zip"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EvidenceTool
+          path: EvidenceTool-*.zip
+
+      - name: Publish release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: EvidenceTool-*.zip
+          generate_release_notes: true

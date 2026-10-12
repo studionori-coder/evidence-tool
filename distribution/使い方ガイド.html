@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>エビデンス取得ツール 使い方ガイド</title>
+<style>
+@page { size: A4; margin: 16mm 16mm 14mm; }
+body { font-family: "Meiryo UI","Meiryo","Yu Gothic","IPAPGothic",sans-serif; font-size: 10.5pt; line-height: 1.65; color: #222; }
+h1 { font-size: 20pt; margin: 0 0 2mm; color: #1f5f3f; }
+.lead { color: #555; margin: 0 0 6mm; }
+h2 { font-size: 13pt; border-left: 5px solid #217346; padding-left: 3mm; margin: 7mm 0 3mm; }
+ol, ul { margin: 0 0 0 5mm; padding-left: 4mm; }
+li { margin: 1mm 0; }
+.box { background: #f1f7f3; border: 1px solid #cfe3d6; border-radius: 3mm; padding: 3mm 5mm; margin: 3mm 0; }
+.warn { background: #fff7e6; border-color: #f0d9a8; }
+table { border-collapse: collapse; width: 100%; margin: 2mm 0; }
+th, td { border: 1px solid #bbb; padding: 1.5mm 3mm; text-align: left; vertical-align: top; }
+th { background: #e2efe7; white-space: nowrap; }
+kbd { border: 1px solid #999; border-bottom-width: 2px; border-radius: 1mm; padding: 0 1.5mm; font-family: inherit; font-size: 9.5pt; background: #fafafa; }
+.step { font-weight: bold; color: #217346; }
+.pb { page-break-before: always; }
+</style></head><body>
+
+<h1>エビデンス取得ツール 使い方ガイド</h1>
+<p class="lead">いつもどおりスクリーンショットを撮るだけで、撮影日時入りのエビデンス Excel が自動でできあがるツールです。</p>
+
+<h2>動作環境</h2>
+<ul>
+<li>Windows 10 / 11</li>
+<li>Excel、または WPS Spreadsheets などの xlsx が開ける表計算ソフト</li>
+<li>インストール不要（Python なども不要）です。<b>EvidenceTool.exe</b> を置くだけで使えます。</li>
+</ul>
+
+<h2>はじめに（最初の1回だけ）</h2>
+<ol>
+<li><b>EvidenceTool.exe</b> を、<b>ドキュメント</b> や <b>デスクトップ</b> など自分のフォルダに置きます。<br>
+<small>※ Program Files など書き込みできない場所に置くと、設定を覚えられません。</small></li>
+<li>ダブルクリックで起動します。青い「Windows によって PC が保護されました」が出た場合は「詳細情報」→「実行」を押します。</li>
+<li>画面右下のタスクトレイ（<b>∧</b> の中にあることもあります）に<b>カメラのアイコン</b>が出れば起動完了です。</li>
+<li>アイコンを右クリック →「<b>保存先を設定…</b>」で、画像と Excel を保存するフォルダを選びます。次回からはこのフォルダが使われます。</li>
+</ol>
+<div class="box">パソコンの起動時に自動で常駐させたい場合：<kbd>Win</kbd>+<kbd>R</kbd> →「shell:startup」と入力して開いたフォルダに、EvidenceTool.exe のショートカットを置きます。</div>
+
+<h2>エビデンスの取り方</h2>
+<table>
+<tr><th><span class="step">1</span> 開始</th><td>アイコンを右クリック →「<b>● 監視を開始</b>」（アイコンのダブルクリックでも可）。アイコンが<b>灰色から緑</b>に変わります。</td></tr>
+<tr><th><span class="step">2</span> 撮影</th><td>作業しながら、いつもどおりスクショを撮ります。<br>
+<kbd>PrtSc</kbd> 画面全体　／　<kbd>Alt</kbd>+<kbd>PrtSc</kbd> 操作中のウィンドウ　／　<kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> 範囲を選んで撮影<br>
+撮るたびに通知が出て、アイコンの赤い数字（枚数）が増えます。</td></tr>
+<tr><th><span class="step">3</span> 終了</th><td>アイコンを右クリック →「<b>■ 監視を終了</b>」。</td></tr>
+<tr><th><span class="step">4</span> Excel 出力</th><td>アイコンを右クリック →「<b>Excel 出力</b>」。整形された Excel が開きます。</td></tr>
+</table>
+<p>このツール独自のキーでも撮れます（監視中のみ）：<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>1</kbd> 全画面　<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>2</kbd> アクティブウィンドウ　<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>3</kbd> 範囲指定</p>
+
+<div class="pb"></div>
+<h2>できあがる Excel</h2>
+<ul>
+<li>開くと<b>改ページプレビュー</b>で表示され、A4 縦 1 ページに 2 枚ずつ整って並びます。そのまま印刷・PDF 化できます。</li>
+<li>各画像の上に <b>No.・撮影日時（秒まで）・撮り方</b>、その下に撮影時の画面（ウィンドウ名）が入ります。</li>
+<li>「一覧」シートに撮影の一覧があり、No. をクリックするとその画像へ移動します。</li>
+<li>画像（JPG）と Excel は、保存先の中の「監視を開始した日時」のフォルダに入ります。</li>
+</ul>
+
+<h2>メニューのその他の機能</h2>
+<table>
+<tr><th>直前の1枚を取り消す</th><td>間違えて撮った画像を1枚ずつ消せます（監視中のみ）。</td></tr>
+<tr><th>撮影時にメモを入力する</th><td>チェックすると、撮るたびに「操作内容」などのメモ欄が出て、Excel に記載されます。</td></tr>
+<tr><th>PrtSc・Win+Shift+S の画像も取り込む</th><td>チェックを外すと、標準のスクショは取り込まず、独自キーの撮影だけになります。</td></tr>
+<tr><th>過去の撮影フォルダから Excel 出力…</th><td>以前に撮ったフォルダを選んで、Excel を作り直せます。</td></tr>
+<tr><th>保存フォルダを開く</th><td>画像と Excel の保存フォルダを開きます。</td></tr>
+<tr><th>ツールを終了</th><td>常駐をやめます。Excel に出していない撮影があれば確認が出ます。</td></tr>
+</table>
+
+<h2>ご注意</h2>
+<div class="box warn">
+<ul>
+<li>監視中は、<b>画像をコピーしただけでも</b>（ブラウザで画像をコピーした場合など）エビデンスに取り込まれます。</li>
+<li>パスワードや個人情報が写り込んでいないか、提出前に確認してください。</li>
+<li>Excel を開いたまま再出力した場合は、末尾に「_1」などを付けた別名で保存されます。</li>
+</ul>
+</div>
+
+<h2>困ったとき</h2>
+<table>
+<tr><th>スクショが取り込まれない</th><td>アイコンが<b>緑（監視中）</b>になっているか確認してください。灰色のときは保存されません。</td></tr>
+<tr><th>「ホットキーを登録できませんでした」と出る</th><td>他のアプリが同じキーを使っています。PrtSc などの標準スクショはそのまま使えます。</td></tr>
+<tr><th>「すでに起動しています」と出る</th><td>タスクトレイ（∧ の中）にアイコンがあります。そちらを使ってください。</td></tr>
+</table>
+
+</body></html>
