@@ -4,6 +4,11 @@ on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      version:
+        description: "公開するバージョン（例: v1.0.0）。空欄ならビルドのみ"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -31,7 +36,7 @@ jobs:
           Copy-Item dist/EvidenceTool.exe pkg/
           Copy-Item distribution/使い方ガイド.pdf pkg/
           Copy-Item LICENSE pkg/LICENSE.txt
-          $name = if ("${{ github.ref_type }}" -eq "tag") { "${{ github.ref_name }}" } else { "dev" }
+          $name = if ("${{ github.ref_type }}" -eq "tag") { "${{ github.ref_name }}" } elseif ("${{ inputs.version }}" -ne "") { "${{ inputs.version }}" } else { "dev" }
           Compress-Archive -Path pkg/* -DestinationPath "EvidenceTool-$name.zip"
 
       - uses: actions/upload-artifact@v4
@@ -40,8 +45,11 @@ jobs:
           path: EvidenceTool-*.zip
 
       - name: Publish release
-        if: github.ref_type == 'tag'
+        if: github.ref_type == 'tag' || inputs.version != ''
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || inputs.version }}
+          target_commitish: ${{ github.sha }}
+          name: エビデンス取得ツール ${{ github.ref_type == 'tag' && github.ref_name || inputs.version }}
           files: EvidenceTool-*.zip
           generate_release_notes: true

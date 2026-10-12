@@ -58,7 +58,7 @@ Excel 出力前にツールが終了しても画像と `session.json` は残る�
 2. このフォルダの `build.bat` をダブルクリック
 3. `dist\EvidenceTool.exe` ができるので、好きな場所に置いて起動
 
-`v1.0.0` のようなタグを push すると、GitHub Actions が exe と使い方ガイドを zip にまとめて Releases に公開します。
+`v1.0.0` のようなタグを push するか、Actions の「Build EvidenceTool.exe」をバージョンを入れて手動実行すると、GitHub Actions が exe と使い方ガイドを zip にまとめて Releases に公開します。
 
 Windows 起動時に自動で常駐させたい場合は、`Win+R` → `shell:startup` で開くフォルダに `EvidenceTool.exe` のショートカットを置いてください。
 
